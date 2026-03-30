@@ -1,43 +1,78 @@
-COMANDOS NO CMD
+# COMANDOS NO CMD
 
-- npm install express cors
-- npm install sqlite3 sqlite
-- npm install dotenv
-- npm install bcrypt
-- npm install jsonwebtoken
+Execute os comandos abaixo para instalar as dependências do projeto:
 
-ARRUMANDOS PASTAS
-- criando pasta public na pasta principal e adicionando os arquivos script.js, index.html, style.css
-   |-public/
-     |
-     |- script.js
-     |- index.html
-     |- style.css
+```
+npm install express cors
+npm install sqlite3 sqlite
+npm install dotenv
+npm install bcrypt
+npm install jsonwebtoken
+```
 
-- criando pasta src  
-- criando pastas database, middlewares, models, routes - dentro da pasta src
-     -src/
-       |
-       |-database/
-       |   |
-       |   |-sqlite.js
-       |
-       |-middlewares/
-       |  |
-       |  |-auth.js
-       |
-       |-models/
-       |  |
-       |  |-Cliente.js
-       |  |-Pedido.js
-       |  |-Pizza.js
-       |  |-Usuario.js
-       | 
-       |-routes/
-         |
-         |-index.js
+---
 
-- database - arquivo; sqlite.js
-- middlewares - arquivo; auth.js
-- models - arquivos; Cliente.js, Pedido.js, Pizza.js, Usuario.js
-- criando arquivo sql não versionado, arquivo: pizzaria.db
+# ARRUMANDO PASTAS
+
+Estrutura mínima de diretórios e arquivos usados neste projeto:
+
+- Crie a pasta `public/` na raiz e adicione os arquivos estáticos:
+
+```
+public/
+  script.js
+  index.html
+  style.css
+```
+
+- Crie a pasta `src/` com as subpastas abaixo:
+
+```
+src/
+  database/
+    sqlite.js
+  middlewares/
+    auth.js
+  models/
+    Cliente.js
+    Pedido.js
+    Pizza.js
+    Usuario.js
+    
+  routes/
+    index.js
+```
+
+- Arquivos exemplares:
+  - `src/database/sqlite.js`
+  - `src/middlewares/auth.js`
+  - `src/models/Cliente.js`, `src/models/Pedido.js`, `src/models/Pizza.js`, `src/models/Usuario.js`
+
+- Arquivo do banco (não versionado): `pizzaria.db`
+
+# EXPLICANDO ARQUIVOS
+
+- `index.html` — arquivo front-end (página estática servida em `/`).
+- `public/script.js` — lógica do front-end (requisições para a API, manipulação do DOM).
+- `public/style.css` — estilos do front-end.
+- `index.js` — ponto de entrada do servidor: carrega variáveis de ambiente, configura middlewares, aguarda `ready` do banco e monta as rotas em `/api`.
+- `package.json` — lista de dependências e scripts úteis (`start`, `dev`, `seed`).
+- `seed.js` — script para popular o banco com dados iniciais .
+- `pizzaria.db` — arquivo SQLite gerado por `sql.js` (não versionar).
+
+- `src/database/sqlite.js` — inicializa `sql.js`, cria o arquivo de DB (`DB_PATH`) se necessário, cria as tabelas e exporta `ready` (Promise) e os helpers `query`, `get`, `run`, `salvar`.
+  - Observação: `run()` grava alterações e chama `salvar()` para persistir o arquivo `pizzaria.db`.
+
+- `src/middlewares/auth.js` — middleware JWT: extrai `Authorization: Bearer <token>`, valida com `process.env.JWT_SECRET` e popula `req.usuario` com o payload.
+
+- `src/models/Usuario.js` — modelo de usuários. Métodos: `findAll`, `findByEmail`, `findById`, `create`, `update`, `delete`, `verificarSenha`. Usa `bcryptjs` para hashing e formata a saída (ex.: `ativo` → booleano).
+
+- `src/models/Pizza.js` — modelo de pizzas: campos como `nome`, `ingredientes`, `precos` (JSON). Implementa operações CRUD via os helpers do DB.
+
+- `src/models/Cliente.js` — modelo de clientes: CRUD básico e busca por critérios (ex.: `busca` query em rotas).
+
+- `src/models/Pedido.js` — modelo de pedidos: cria pedidos com itens, calcula totais, expõe `create`, `findAll` (aceita filtros), `findById`, `updateStatus`, `delete`.
+
+- `src/routes/index.js` — define as rotas REST principais (`/auth/login`, `/pizzas`, `/clientes`, `/pedidos`, `/usuarios`), aplica `auth` middleware nas rotas protegidas e checa `req.usuario.perfil` para permissões (ex.: somente `Administrador` pode criar/ler `/usuarios`).
+
+- `readme.md` — este arquivo: instruções rápidas sobre instalação e estrutura do projeto.

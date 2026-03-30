@@ -1,13 +1,15 @@
+// desportando dependencias
 const express  = require('express');
 const jwt      = require('jsonwebtoken');
 const router   = express.Router();
 const auth     = require('../middlewares/auth');
 
+// importando modelos
 const Usuario  = require('../models/Usuario');
 const Pizza    = require('../models/Pizza');
 const Cliente  = require('../models/Cliente');
 const Pedido   = require('../models/Pedido');
-
+// autentificação de usuario
 router.post('/auth/login', async (req, res) => {
   try {
     const { email, senha } = req.body;
@@ -23,12 +25,13 @@ router.post('/auth/login', async (req, res) => {
       { id: usuario.id, nome: usuario.nome, email: usuario.email, perfil: usuario.perfil },
       process.env.JWT_SECRET,
       { expiresIn: '8h' }
-    );
+    ); // Gerar token JWT com informações do usuário e expiração de 8 horas
 
     res.json({ token, usuario: { id: usuario.id, nome: usuario.nome, email: usuario.email, perfil: usuario.perfil } });
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// Rotas de pizzas
 router.get('/pizzas', auth, async (req, res) => {
   try { res.json(await Pizza.findAll()); }
   catch (e) { res.status(500).json({ erro: e.message }); }
@@ -66,6 +69,7 @@ router.delete('/pizzas/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// Rotas de clientes
 router.get('/clientes', auth, async (req, res) => {
   try { res.json(await Cliente.findAll(req.query.busca)); }
   catch (e) { res.status(500).json({ erro: e.message }); }
@@ -103,11 +107,12 @@ router.delete('/clientes/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// Rotas de pedidos
 router.get('/pedidos', auth, async (req, res) => {
   try {
     const filtros = {};
     if (req.query.garcom) filtros.garcomId = req.query.garcom;
-    res.json(await Pedido.findAll(filtros));
+    res.json(await Pedido.findAll(filtros)); 
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
@@ -123,7 +128,7 @@ router.post('/pedidos', auth, async (req, res) => {
   try {
     const { cliente, itens, formaPagamento } = req.body;
     if (!cliente || !itens?.length || !formaPagamento)
-      return res.status(400).json({ erro: 'cliente, itens e formaPagamento são obrigatórios' });
+      return res.status(400).json({ erro: 'cliente, itens e formaPagamento são obrigatórios' }); 
 
     const novo = await Pedido.create({
       clienteId:      cliente,
@@ -135,7 +140,7 @@ router.post('/pedidos', auth, async (req, res) => {
       mesa:           req.body.mesa,
       origem:         req.body.origem,
       garcomId:       req.body.garcom || req.usuario?.id,
-    });
+    }); // criando pedido com o usuário autenticado como garçom, se não for especificado
     res.status(201).json(novo);
   } catch (e) { res.status(400).json({ erro: e.message }); }
 });
@@ -159,6 +164,7 @@ router.delete('/pedidos/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// rotas de usuarios
 router.get('/usuarios', auth, async (req, res) => {
   try {
     if (req.usuario.perfil !== 'Administrador')

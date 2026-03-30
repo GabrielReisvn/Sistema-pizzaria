@@ -1,5 +1,7 @@
+// importando as funções de acesso ao banco de dados SQLite
 const { ready, query, run, get } = require('../database/sqlite');
 
+// Função auxiliar para formatar os dados do banco no formato esperado pela API
 function formatarPizza(row) {
   if (!row) return null;
   return {
@@ -16,6 +18,7 @@ function formatarPizza(row) {
   };
 }
 
+// OBJETO DE MODELO DE PIZZA COM MÉTODOS PARA CRUD
 const Pizza = {
 
   async findAll() {
@@ -27,7 +30,7 @@ const Pizza = {
     await ready;
     return formatarPizza(get('SELECT * FROM pizzas WHERE id = ?', [id]));
   },
-
+  // Cria uma nova pizza com os dados fornecidos
   async create({ nome, descricao = '', ingredientes, precos = {}, disponivel = true, categoria = 'tradicional' }) {
     await ready;
     const info = run(
@@ -38,7 +41,7 @@ const Pizza = {
     );
     return this.findById(info.lastInsertRowid);
   },
-
+   // Atualiza uma pizza existente com os dados fornecidos (apenas os campos presentes serão atualizados)
   async update(id, { nome, descricao, ingredientes, precos, disponivel, categoria }) {
     await ready;
     const atual = get('SELECT * FROM pizzas WHERE id = ?', [id]);
@@ -48,7 +51,7 @@ const Pizza = {
     const precosFinal  = precos
       ? { P: precos.P ?? precosAtuais.P, M: precos.M ?? precosAtuais.M, G: precos.G ?? precosAtuais.G }
       : precosAtuais;
-
+    
     run(`
       UPDATE pizzas SET
         nome         = ?,
@@ -68,10 +71,10 @@ const Pizza = {
       categoria    ?? atual.categoria,
       id
     ]);
-
+    // Retorna a pizza atualizada
     return this.findById(id);
   },
-
+  // Deleta uma pizza (na verdade, marca como indisponível)
   async delete(id) {
     await ready;
     const info = run('DELETE FROM pizzas WHERE id = ?', [id]);
@@ -79,4 +82,5 @@ const Pizza = {
   },
 };
 
+// EXPORTANDO O MODELO DE PIZZA PARA USO NAS ROTAS E OUTRAS PARTES DO SISTEMA
 module.exports = Pizza;

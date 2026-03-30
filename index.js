@@ -1,20 +1,24 @@
 require('dotenv').config();
 
+// importando dependências
 const express = require('express');
 const cors    = require('cors');
 const path    = require('path');
 
-const app  = express();
-const PORT = process.env.PORT || 3001;
+const app  = express(); 
+const PORT = process.env.PORT || 3001; // Porta para o servidor
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// importando rotas e iniciando banco
 const { ready } = require('./src/database/sqlite');
 const routes    = require('./src/routes/index');
 
+
 ready.then(() => {
+  
   app.use('/api', routes);
 
   app.get('/teste', (req, res) => {
@@ -24,7 +28,7 @@ ready.then(() => {
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
-
+  // iniciando servidor
   app.listen(PORT, () => {
     console.log('=================================');
     console.log(`Servidor rodando na porta ${PORT}`);
