@@ -37,6 +37,7 @@ router.get('/pizzas', auth, async (req, res) => {
   catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// rota para buscar pizza por ID
 router.get('/pizzas/:id', auth, async (req, res) => {
   try {
     const p = await Pizza.findById(req.params.id);
@@ -45,6 +46,7 @@ router.get('/pizzas/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// rota para criar uma nova pizza
 router.post('/pizzas', auth, async (req, res) => {
   try {
     if (!req.body.nome || !req.body.ingredientes)
@@ -53,6 +55,7 @@ router.post('/pizzas', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// rota para atualizar pizza
 router.put('/pizzas/:id', auth, async (req, res) => {
   try {
     const p = await Pizza.update(req.params.id, req.body);
@@ -61,6 +64,7 @@ router.put('/pizzas/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// rota de exclusão de pizza (marcar como indisponível)
 router.delete('/pizzas/:id', auth, async (req, res) => {
   try {
     const ok = await Pizza.delete(req.params.id);
@@ -75,6 +79,7 @@ router.get('/clientes', auth, async (req, res) => {
   catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// rota para buscar cliente por ID
 router.get('/clientes/:id', auth, async (req, res) => {
   try {
     const c = await Cliente.findById(req.params.id);
@@ -83,6 +88,7 @@ router.get('/clientes/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// rota para criar um novo cliente
 router.post('/clientes', auth, async (req, res) => {
   try {
     if (!req.body.nome || !req.body.telefone)
@@ -91,6 +97,7 @@ router.post('/clientes', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// rota para atualizar cliente
 router.put('/clientes/:id', auth, async (req, res) => {
   try {
     const c = await Cliente.update(req.params.id, req.body);
@@ -99,7 +106,7 @@ router.put('/clientes/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
-// Exclusão 
+// rota de exclusão cliente (marcar como inativo) 
 router.delete('/clientes/:id', auth, async (req, res) => {
   try {
     const ok = await Cliente.delete(req.params.id);
@@ -108,7 +115,7 @@ router.delete('/clientes/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
-// Rotas de pedidos
+// Rotas de pedidos 
 router.get('/pedidos', auth, async (req, res) => {
   try {
     const filtros = {};
@@ -117,6 +124,7 @@ router.get('/pedidos', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// rota para buscar pedido por ID
 router.get('/pedidos/:id', auth, async (req, res) => {
   try {
     const p = await Pedido.findById(req.params.id);
@@ -124,7 +132,7 @@ router.get('/pedidos/:id', auth, async (req, res) => {
     res.json(p);
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
-
+// rota para criar um novo pedido
 router.post('/pedidos', auth, async (req, res) => {
   try {
     const { cliente, itens, formaPagamento } = req.body;
@@ -146,6 +154,7 @@ router.post('/pedidos', auth, async (req, res) => {
   } catch (e) { res.status(400).json({ erro: e.message }); }
 });
 
+// rota para atualizar status do pedido
 router.patch('/pedidos/:id/status', auth, async (req, res) => {
   try {
     const validos = ['recebido','em_preparo','saiu_entrega','entregue','cancelado'];
@@ -157,6 +166,7 @@ router.patch('/pedidos/:id/status', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// rota de exclusão de pedido (marcar como cancelado)
 router.delete('/pedidos/:id', auth, async (req, res) => {
   try {
     const ok = await Pedido.delete(req.params.id);
@@ -174,6 +184,7 @@ router.get('/usuarios', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// rota para identificar 
 router.post('/usuarios', auth, async (req, res) => {
   try {
     if (req.usuario.perfil !== 'Administrador')
@@ -188,6 +199,7 @@ router.post('/usuarios', auth, async (req, res) => {
   }
 });
 
+// rota  para atualizar usuario 
 router.put('/usuarios/:id', auth, async (req, res) => {
   try {
     if (req.usuario.perfil !== 'Administrador')
@@ -198,6 +210,7 @@ router.put('/usuarios/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// Exclusão de usuário (marcar como inativo)
 router.delete('/usuarios/:id', auth, async (req, res) => {
   try {
     if (req.usuario.perfil !== 'Administrador')
