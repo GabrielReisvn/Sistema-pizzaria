@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const { ready } = require('./src/database/sqlite');
-const routes    = require('./index');
+const routes    = require('./src/routes/index');
 
 ready.then(() => {
   app.use('/api', routes);

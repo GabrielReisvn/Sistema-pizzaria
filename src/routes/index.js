@@ -1,12 +1,12 @@
 const express  = require('express');
 const jwt      = require('jsonwebtoken');
 const router   = express.Router();
-const auth     = require('../middlewares/auth.js');
+const auth     = require('../middlewares/auth');
 
-const Usuario  = require('../models/Usuario.js');
-const Pizza    = require('../models/Pizza.js');
-const Cliente  = require('../models/Cliente.js');
-const Pedido   = require('../models/Pedido.js');
+const Usuario  = require('../models/Usuario');
+const Pizza    = require('../models/Pizza');
+const Cliente  = require('../models/Cliente');
+const Pedido   = require('../models/Pedido');
 
 router.post('/auth/login', async (req, res) => {
   try {
