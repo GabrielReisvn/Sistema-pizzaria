@@ -99,6 +99,7 @@ router.put('/clientes/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }); }
 });
 
+// Exclusão 
 router.delete('/clientes/:id', auth, async (req, res) => {
   try {
     const ok = await Cliente.delete(req.params.id);

@@ -1,3 +1,4 @@
+//importando variaveis do .env para configurar o ambiente de desenvolvimento e produção
 require('dotenv').config();
 
 // importando dependências
@@ -17,6 +18,7 @@ const { ready } = require('./src/database/sqlite');
 const routes    = require('./src/routes/index');
 
 
+// garantindo banco de dados pronto antes de iniciar e configurar rotas do servidor
 ready.then(() => {
   
   app.use('/api', routes);
@@ -25,6 +27,7 @@ ready.then(() => {
     res.json({ mensagem: 'API da Pizzaria funcionando!', status: 'online', porta: PORT });
   });
 
+  
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });

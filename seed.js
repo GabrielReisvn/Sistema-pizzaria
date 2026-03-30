@@ -1,7 +1,9 @@
+// modulos do node.js e acesssando banco de dados para popular com dados iniciais
 require('dotenv').config();
 const { ready, run, query } = require('./src/database/sqlite');
 const bcrypt = require('bcryptjs');
 
+// Limpando banco de dados para inserir dados iniciais
 async function seed() {
   try {
     await ready;
@@ -19,8 +21,10 @@ async function seed() {
 
     console.log('✅ Banco limpo');
 
-    const hash = await bcrypt.hash('123456', 10);
+    const hash = await bcrypt.hash('123456', 10); // gerando hash da senha "123456" para os usuários iniciais
+    // hash é uma string criptografada que representa a senha original, garantindo segurança mesmo que o banco de dados seja comprometido
 
+    //adicionando usuarios iniciais com email e senha padrão para cada perfil (admin, atendente e garçom)
     run('INSERT INTO usuarios (nome, email, senha, perfil) VALUES (?, ?, ?, ?)',
       ['Administrador Master', 'admin@pizzaria.com', hash, 'Administrador']);
     run('INSERT INTO usuarios (nome, email, senha, perfil) VALUES (?, ?, ?, ?)',
@@ -30,6 +34,7 @@ async function seed() {
 
     console.log('✅ 3 usuários criados');
 
+    // Criando 20 clientes fictícios com nomes, telefones, endereços e observações variadas para popular a tabela de clientes
     const clientes = [
       ['Lucas Ferreira Santos',   '11991234501', {rua:'Rua das Acácias',numero:'142',bairro:'Vila Madalena',cidade:'São Paulo',cep:'05435-000'}, 'Alérgico a glúten'],
       ['Camila Rodrigues Lima',   '11991234502', {rua:'Av. Paulista',numero:'900',bairro:'Bela Vista',cidade:'São Paulo',cep:'01310-100'}, ''],
@@ -53,12 +58,14 @@ async function seed() {
       ['Carolina Batista Pinto',  '11991234520', {rua:'Rua Peixoto Gomide',numero:'1100',bairro:'Jardim Paulista',cidade:'São Paulo',cep:'01409-001'}, 'Prefere bordas recheadas'],
     ];
 
+    // Inserindo os clientes no banco de dados, convertendo o campo de endereço para JSON string antes de inserir
     for (const [nome, tel, end, obs] of clientes) {
       run('INSERT INTO clientes (nome, telefone, endereco, observacoes) VALUES (?, ?, ?, ?)',
         [nome, tel, JSON.stringify(end), obs]);
     }
     console.log('✅ 20 clientes criados');
 
+    // Criando 20 pizzas fictícias com nomes, descrições, ingredientes, preços por tamanho e categorias variadas para popular a tabela de pizzas
     const pizzas = [
       ['Calabresa','Clássica brasileira, presença garantida em qualquer mesa','Calabresa fatiada, cebola e azeitona',{P:35,M:45,G:55},'tradicional'],
       ['Margherita','A tradição italiana em cada fatia','Molho de tomate, mussarela e manjericão fresco',{P:34,M:44,G:54},'tradicional'],
@@ -82,6 +89,7 @@ async function seed() {
       ['Nutella com Banana','Irresistível combinação que conquista de primeira','Nutella, banana caramelada, leite condensado e canela',{P:46,M:58,G:70},'doce'],
     ];
 
+    // Inserindo as pizzas no banco de dados, convertendo o campo de preços para JSON string antes de inserir
     for (const [nome, desc, ing, precos, cat] of pizzas) {
       run('INSERT INTO pizzas (nome, descricao, ingredientes, precos, categoria) VALUES (?, ?, ?, ?, ?)',
         [nome, desc, ing, JSON.stringify(precos), cat]);
@@ -100,4 +108,5 @@ async function seed() {
   }
 }
 
+// Executando a função para popular o banco de dados com os dados iniciais
 seed();
