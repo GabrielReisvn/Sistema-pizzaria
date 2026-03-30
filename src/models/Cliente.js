@@ -1,5 +1,7 @@
+// acesso ao banco de dados SQLite e funções auxiliares para manipulação dos dados
 const { ready, query, run, get } = require('../database/sqlite');
 
+// Função auxiliar para formatar os dados do banco no formato esperado pela API, convertendo o campo de endereço de JSON string para objeto
 function formatarCliente(row) {
   if (!row) return null;
   return {
@@ -15,6 +17,7 @@ function formatarCliente(row) {
   };
 }
 
+// OBJETO DE MODELO DE CLIENTE COM MÉTODOS PARA CRUD E CONSULTAS ESPECÍFICAS
 const Cliente = {
 
   async findAll(busca = '') {
@@ -32,11 +35,13 @@ const Cliente = {
     return rows.map(formatarCliente);
   },
 
+  
   async findById(id) {
     await ready;
     return formatarCliente(get('SELECT * FROM clientes WHERE id = ?', [id]));
   },
 
+  // Cria um novo cliente com os dados fornecidos, convertendo o campo de endereço para JSON string antes de inserir no banco
   async create({ nome, telefone, endereco = {}, observacoes = '' }) {
     await ready;
     const info = run(
@@ -46,6 +51,7 @@ const Cliente = {
     return this.findById(info.lastInsertRowid);
   },
 
+  // Atualiza um cliente existente com os dados fornecidos, convertendo o campo de endereço para JSON string antes de atualizar no banco
   async update(id, { nome, telefone, endereco, observacoes, ativo }) {
     await ready;
     const atual = get('SELECT * FROM clientes WHERE id = ?', [id]);
@@ -75,6 +81,7 @@ const Cliente = {
     return this.findById(id);
   },
 
+  // Deleta um cliente (na verdade, marca como inativo), retornando true se o cliente foi deletado ou false se o cliente não for encontrado
   async delete(id) {
     await ready;
     const info = run('DELETE FROM clientes WHERE id = ?', [id]);
@@ -82,4 +89,5 @@ const Cliente = {
   },
 };
 
+// EXPORTANDO O MODELO DE CLIENTE PARA USO NAS ROTAS E OUTRAS PARTES DO SISTEMA
 module.exports = Cliente;
