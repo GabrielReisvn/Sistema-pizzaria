@@ -1,5 +1,8 @@
+// DOM e javascript
+
 const API = '/api';
 
+//variaveis globais para amarzenar dados de pizzas e clientes, evitando múltiplas requisições 
 let cPizzas   = [];
 let cClientes = [];
 
@@ -7,6 +10,7 @@ let TOKEN          = localStorage.getItem('pz_token') || '';
 let USUARIO_LOGADO = JSON.parse(localStorage.getItem('pz_usuario') || 'null');
 let mesaEmFechamento = null;
 
+// função para realizar login, requisitando email e senha e validando pela api
 async function fazerLogin() {
   const email = document.getElementById('l-email').value.trim();
   const senha = document.getElementById('l-senha').value;
@@ -33,6 +37,7 @@ async function fazerLogin() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.erro || 'Credenciais inválidas');
 
+    // armazenando dados do usuário
     TOKEN = data.token;
     USUARIO_LOGADO = data.usuario;
     localStorage.setItem('pz_token', TOKEN);
@@ -50,6 +55,7 @@ async function fazerLogin() {
   }
 }
 
+// função para realizar logout, limpando os dados armazenados e atualizando a interface
 function sair() {
   TOKEN = '';
   USUARIO_LOGADO = null;
@@ -64,13 +70,14 @@ if (TOKEN && USUARIO_LOGADO) {
   document.body.classList.add('logado');
 }
 
+// função para exibir mensagens temporarias (toasts) com diferentes tipos (ok, err, info)
 function toast(msg, tipo = 'ok') {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.className   = `show ${tipo}`;
   setTimeout(() => el.className = '', 3000);
 }
-
+// funções para abrir e fechar modais, adicionando ou removendo a classe 'open' do elemento
 function abrir(id)  { document.getElementById(id).classList.add('open'); }
 function fechar(id) { document.getElementById(id).classList.remove('open'); }
 
@@ -78,10 +85,12 @@ document.querySelectorAll('.modal-bg').forEach(bg =>
   bg.addEventListener('click', e => { if (e.target === bg) bg.classList.remove('open'); })
 );
 
+// função para formatar valores para moeda brasileira, convertendo ponto para vírgula e adicionando o prefixo 'R$'
 function R$(v) {
   return 'R$ ' + Number(v || 0).toFixed(2).replace('.', ',');
 }
 
+// função para criar badges com diferentes estilos com base no status
 function badge(s) {
   const r = {
     recebido:     '📥 Recebido',
@@ -93,6 +102,7 @@ function badge(s) {
   return `<span class="badge b-${s}">${r[s] || s}</span>`;
 }
 
+// função para requisitar api
 async function api(method, url, body) {
   const opts = {
     method,
@@ -111,6 +121,7 @@ async function api(method, url, body) {
   return data;
 }
 
+//função pra aplicar o perfil logado, mostrando ou escondendo elementos da interface conforme o perfil do usuário (Administrador, Garcom )
 function aplicarPerfil(usuario) {
   document.getElementById('sb-nome').textContent   = usuario.nome;
   document.getElementById('sb-perfil').textContent = usuario.perfil;
@@ -119,6 +130,7 @@ function aplicarPerfil(usuario) {
   const isAdmin = perfil === 'Administrador';
   const isGar   = perfil === 'Garcom';
 
+  //
   function show(id, visible, type = 'flex') {
     const el = document.getElementById(id);
     if (el) el.style.display = visible ? type : 'none';
