@@ -88,9 +88,12 @@ Abaixo estão os modelos de página presentes com uma breve descrição do que c
 <img src="./img/login.png" width="500" height="auto">
 
 ```
-**Objetivo** : autenticar usuário via email/senha e obter token JWT.
-Elementos principais: campos email e senha, botão Entrar, mensagens de erro/toast.
+Objetivo: autenticar usuário via email/senha e obter token JWT.
+
+Elementos principais: campos email e senha, botão Entrar, mensagens de erro/toast
+.
 Ações: validar campos, enviar /api/auth/login, armazenar token e dados do usuário em localStorage, alternar para a interface principal (body.logado).
+
 Permissões: disponível a todos; funções exibidas depois do login conforme perfil.
 
 ```
@@ -100,7 +103,13 @@ Permissões: disponível a todos; funções exibidas depois do login conforme pe
 <img src="./img/dashboard.png" width="500" height="auto">
 
 ``` 
+Objetivo: visão geral rápida de estatísticas e indicadores (vendas, pedidos, clientes, pizzas).
 
+Elementos principais: cards de estatísticas, gráficos/resumos, atalhos para criar pizza/pedido.
+
+Ações: exibir totais, filtros rápidos (período), navegar para páginas detalhadas (Pedidos, Pizzas, Clientes).
+
+Permissões: visível para usuários autenticados; conteúdo pode variar por perfil.
 ```
 
 ### **_Pedidos_** 📋
@@ -108,6 +117,16 @@ Permissões: disponível a todos; funções exibidas depois do login conforme pe
 <img src="./img/pedido.png" width="500" height="auto">
 
 ``` 
+* Objetivo: gerenciar pedidos (criar, visualizar, atualizar status, cancelar).
+
+* Elementos principais: lista/tabela de pedidos com cliente, itens, total e status; modal de criação/edição; botão para alterar status.
+
+* Ações:
+  - Criar pedido: selecionar cliente (ou novo), adicionar itens (pizza, tamanho, qtd), aplicar taxa de entrega e forma de pagamento.
+  - Editar/Atualizar status: mudar entre recebido → em_preparo → saiu_entrega → entregue / cancelar.
+  - Excluir/cancelar pedido e ver histórico.
+
+* Permissões: atendentes/garçons podem criar e atualizar; administradores têm controle completo.
 
 ```
 
