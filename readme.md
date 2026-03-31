@@ -83,12 +83,10 @@ src/
 
 ## Modelos (models)
 
----
 Abaixo estão os modelos presentes em src/models/ com uma breve descrição do que cada um expõe e quais operações é esperado que realizem.
----
 
 ### Usuario (src/models/Usuario.js)
----
+
 - Campos típicos:
   - id / _id
   - nome
@@ -107,10 +105,10 @@ Abaixo estão os modelos presentes em src/models/ com uma breve descrição do q
 - Observações:
   - Não devolver o campo senha nas respostas da API.
   - Perfis controlam permissões nas rotas (ex.: só Administrador pode gerenciar usuários).
----
+
 
 ### Pizza (src/models/Pizza.js)
----
+
 - Campos típicos:
   - id / _id
   - nome
@@ -127,9 +125,9 @@ Abaixo estão os modelos presentes em src/models/ com uma breve descrição do q
 - Observações:
   - precos deve ser um objeto JSON para facilitar diferentes tamanhos/preços.
   - Validar campos obrigatórios (nome, pelo menos um preço).
----
+
 ### Cliente (src/models/Cliente.js)
----
+
 - Campos típicos:
   - id / _id
   - nome
@@ -144,11 +142,9 @@ Abaixo estão os modelos presentes em src/models/ com uma breve descrição do q
   - delete(id) — remover ou marcar como inativo.
 - Observações:
   - Permitir pesquisa incremental no front-end (debounce) utilizando a rota de listagem com query string.
----
 
 ### Pedido (src/models/Pedido.js)
 
----
 - Campos típicos:
   - id / _id
   - clienteId (ou dados básicos do cliente)
@@ -168,9 +164,9 @@ Abaixo estão os modelos presentes em src/models/ com uma breve descrição do q
   - update(id, data) — editar pedido (se permitido).
   - delete(id) — cancelar ou remover pedido.
 - Observações:
----
+
   - Ao criar pedido, gravar snapshot dos itens (nome, tamanho, preço) para manter histórico.
   - Validar estoque/preços conforme necessário (se houver).
   - Permitir fechamento de mesas (conjunto de pedidos) e gerar totais para pagamento.
 
----
+
