@@ -86,31 +86,51 @@ Abaixo estão os modelos de página presentes com uma breve descrição do que c
 ### **_TELA DE LOGIN_**
 
 <img src="./img/login.png" width="500" height="auto">
-```[8]
 
+```
+Objetivo: autenticar usuário via email/senha e obter token JWT.
+Elementos principais: campos email e senha, botão Entrar, mensagens de erro/toast.
+Ações: validar campos, enviar /api/auth/login, armazenar token e dados do usuário em localStorage, alternar para a interface principal (body.logado).
+Permissões: disponível a todos; funções exibidas depois do login conforme perfil.
 
+```
 
 ### **_Dashboard_** 📊
 
 <img src="./img/dashboard.png" width="500" height="auto">
-``` [8]
+
+``` 
+
+```
 
 ### **_Pedidos_** 📋
 
 <img src="./img/pedido.png" width="500" height="auto">
-``` [8]
+
+``` 
+
+```
 
 ### **_Pizza_** 🍕
 
 <img src="./img/pizza.png" width="500" height="auto">
-``` [8]
+
+``` 
+
+```
 
 ### **_Clientes_** 👥
 
 <img src="./img/clientes.png" width="500" height="auto">
-``` [8]
+
+``` 
+
+```
 
 ### **_Usuários_** 🔐
 
 <img src="./img/suarios.png" width="500" height="auto">
-``` [8]
+
+```
+
+```
