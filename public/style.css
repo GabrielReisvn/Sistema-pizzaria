@@ -26,7 +26,8 @@ body {
   font-size: 14px;
 }
 
-
+/*    TELA DE LOGIN */
+/* =================== */
 #tela-login {
   display: flex;
   align-items: center;
@@ -82,10 +83,12 @@ body {
 }
 
 #app { display: none; min-height: 100vh; }
-
+/* alterar tela login para o app */
 body.logado #tela-login { display: none; }
 body.logado #app        { display: flex; }
 
+/*  TELA APP INICIAL */
+/* sidebar para navegar entre as telas. esta tela é fixa */
 #sidebar {
   width: 220px;
   min-height: 100vh;
@@ -108,7 +111,7 @@ body.logado #app        { display: flex; }
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.2px;
-  color: var(--red);
+  color: var(--red);  
 }
 
 .sb-user {
@@ -191,6 +194,8 @@ body.logado #app        { display: flex; }
 
 .btn-logout:hover { border-color: var(--red); color: var(--red); }
 
+/*  CONTEUDO PRINCIPAL */
+/*  tela alteravel na sidebar */
 #conteudo {
   margin-left: 220px;
   flex: 1;
@@ -244,6 +249,7 @@ body.logado #app        { display: flex; }
   height: 3px;
 }
 
+/* STaTUS DE INFORMAÇÕES */
 .stat.cr::before { background: var(--red); }
 .stat.co::before { background: var(--orange); }
 .stat.cg::before { background: var(--green); }
@@ -261,6 +267,7 @@ body.logado #app        { display: flex; }
   gap: 14px;
 }
 
+/* CARDAPIO */
 .card {
   background: var(--surf);
   border: 1px solid var(--border);
@@ -279,6 +286,7 @@ body.logado #app        { display: flex; }
 .card-head h3 { font-size: 0.85rem; font-weight: 600; }
 .card-body    { padding: 12px 16px; }
 
+/* TABELA DO CARDAPIO ATIVO */
 .tbl-wrap { overflow-x: auto; }
 
 table { width: 100%; border-collapse: collapse; font-size: 0.81rem; }
@@ -308,6 +316,7 @@ td { padding: 10px 12px; vertical-align: middle; }
   white-space: nowrap;
 }
 
+/* STATUS DO PEDIDO */
 .b-recebido     { background: rgba(59,130,246,.18);  color: #93c5fd; }
 .b-em_preparo   { background: rgba(245,200,66,.18);  color: var(--gold); }
 .b-saiu_entrega { background: rgba(139,92,246,.18);  color: #c4b5fd; }
@@ -334,6 +343,7 @@ td { padding: 10px 12px; vertical-align: middle; }
   white-space: nowrap;
 }
 
+/* BOTÕES PARA CRIAR NOVO PEDIDO E NOVA PIZZA */
 .btn-red    { background: var(--red);   color: #fff; }
 .btn-red:hover { background: var(--red-dk); }
 .btn-blue   { background: var(--blue);  color: #fff; }
@@ -381,6 +391,7 @@ select option { background: var(--surf2); }
 .fr2 { display: grid; grid-template-columns: 1fr 1fr;     gap: 10px; }
 .fr3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
+/* SEÇÂO PARA CRIAR NOVA PIZZA E NOVO PEDIDO */
 .modal-bg {
   display: none;
   position: fixed;
@@ -431,6 +442,7 @@ select option { background: var(--surf2); }
   margin-bottom: 6px;
 }
 
+/* Botão remover da table */
 .btn-rm {
   background: rgba(232,55,42,.1);
   border: none;
@@ -442,6 +454,7 @@ select option { background: var(--surf2); }
   display: flex; align-items: center; justify-content: center;
 }
 
+/* BOX ONDE MOSTRA TOTAL DO PEDIDO ou PIZZA */
 .total-box {
   background: var(--surf2);
   border: 1px solid var(--border);
@@ -497,7 +510,7 @@ select option { background: var(--surf2); }
   transition: all .28s;
   box-shadow: 0 8px 24px rgba(0,0,0,.5);
 }
-
+/* POP-UPS DE NOTIFICAÇÃO */
 #toast.show { transform: translateY(0); opacity: 1; }
 #toast.ok   { background: var(--green); color: #fff; }
 #toast.err  { background: var(--red);   color: #fff; }
@@ -526,6 +539,13 @@ select option { background: var(--surf2); }
 
 .empty .ei { font-size: 2rem; display: block; margin-bottom: 7px; }
 
+/* CARTÕES DE MESA
+   estilos para os cartões que representam mesas na tela de garçom:
+   - .mesa-card: contêiner principal 
+   - .mesa-card-head: cabeçalho com número e ações
+   - .mesa-card-body: corpo com itens do pedido
+   - .mesa-card-foot: rodapé com botões 
+*/
 .mesa-card {
   background: var(--surf);
   border: 1px solid var(--border);
@@ -579,6 +599,7 @@ select option { background: var(--surf2); }
   padding-top: 6px;
 }
 
+/* REGRA DE RESPONSIVIDADE */
 @media (max-width: 860px) {
   #sidebar { width: 52px; }
   #sidebar .sb-logo h1,
