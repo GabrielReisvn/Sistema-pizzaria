@@ -117,16 +117,16 @@ Permissões: visível para usuários autenticados; conteúdo pode variar por per
 <img src="./img/pedido.png" width="500" height="auto">
 
 ``` 
-* Objetivo: gerenciar pedidos (criar, visualizar, atualizar status, cancelar).
+Objetivo: gerenciar pedidos (criar, visualizar, atualizar status, cancelar).
 
-* Elementos principais: lista/tabela de pedidos com cliente, itens, total e status; modal de criação/edição; botão para alterar status.
+Elementos principais: lista/tabela de pedidos com cliente, itens, total e status; modal de criação/edição; botão para alterar status.
 
-* Ações:
+Ações:
   - Criar pedido: selecionar cliente (ou novo), adicionar itens (pizza, tamanho, qtd), aplicar taxa de entrega e forma de pagamento.
   - Editar/Atualizar status: mudar entre recebido → em_preparo → saiu_entrega → entregue / cancelar.
   - Excluir/cancelar pedido e ver histórico.
 
-* Permissões: atendentes/garçons podem criar e atualizar; administradores têm controle completo.
+Permissões: atendentes/garçons podem criar e atualizar; administradores têm controle completo.
 
 ```
 
@@ -135,6 +135,16 @@ Permissões: visível para usuários autenticados; conteúdo pode variar por per
 <img src="./img/pizza.png" width="500" height="auto">
 
 ``` 
+Objetivo: CRUD de pizzas e configuração de preços por tamanho.
+
+Elementos principais: tabela/lista de pizzas, botões criar/editar/excluir, modal com campos (nome, ingredientes, preços, disponibilidade).
+
+Ações:
+  - Criar/Editar: informar nome, ingredientes, preços para pequenos/medios/grandes, categoria e disponibilidade.
+  - Deletar: remover pizza (com confirmação).
+  - Buscar/filtrar por nome ou categoria.
+
+Permissões: geralmente restrito a usuários com permissão de gestão (administrador/gerente).
 
 ```
 
@@ -143,7 +153,16 @@ Permissões: visível para usuários autenticados; conteúdo pode variar por per
 <img src="./img/clientes.png" width="500" height="auto">
 
 ``` 
+Objetivo: gerenciar cadastro de clientes (endereços, telefone, observações).
 
+Elementos principais: lista de clientes, busca incremental, modal de criação/edição, botão deletar.
+
+Ações:
+  - Buscar por nome/telefone (debounce no front-end).
+  - Criar/Editar cliente com endereço completo e observações.
+  - Remover ou marcar como inativo.
+
+Permissões: disponível para atendentes/garçons; administradores também.
 ```
 
 ### **_Usuários_** 🔐
@@ -151,5 +170,15 @@ Permissões: visível para usuários autenticados; conteúdo pode variar por per
 <img src="./img/suarios.png" width="500" height="auto">
 
 ```
+Objetivo: administração de contas do sistema (somente para administradores).
+
+Elementos principais: tabela de usuários com perfil, status (ativo/inativo), botões criar/editar/excluir.
+
+Ações:
+  - Criar usuário com perfil (Administrador, Garcom, Atendente), hashear senha no back-end.
+  - Ativar/Desativar usuário, editar permissões básicas.
+  - Restrições: rota protegida por middleware JWT e autorização por perfil.
+ 
+Permissões: apenas administradores podem acessar e modificar.
 
 ```
