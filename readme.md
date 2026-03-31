@@ -168,6 +168,7 @@ Abaixo estão os modelos presentes em src/models/ com uma breve descrição do q
   - update(id, data) — editar pedido (se permitido).
   - delete(id) — cancelar ou remover pedido.
 - Observações:
+---
   - Ao criar pedido, gravar snapshot dos itens (nome, tamanho, preço) para manter histórico.
   - Validar estoque/preços conforme necessário (se houver).
   - Permitir fechamento de mesas (conjunto de pedidos) e gerar totais para pagamento.
