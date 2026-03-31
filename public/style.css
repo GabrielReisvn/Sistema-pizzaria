@@ -1,3 +1,4 @@
+/* cores predefinidas */
 :root {
   --bg:      #0f0f0f;
   --surf:    #181818;
@@ -24,6 +25,7 @@ body {
   min-height: 100vh;
   font-size: 14px;
 }
+
 
 #tela-login {
   display: flex;

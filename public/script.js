@@ -130,12 +130,12 @@ function aplicarPerfil(usuario) {
   const isAdmin = perfil === 'Administrador';
   const isGar   = perfil === 'Garcom';
 
-  //
+  // fuunção auxiliar para mostrar ou esconder elemento pelo id
   function show(id, visible, type = 'flex') {
     const el = document.getElementById(id);
     if (el) el.style.display = visible ? type : 'none';
   }
-
+  // função auxiliar para mostrar ou esconder elemento passado diretamente
   function showEl(el, visible, type = 'flex') {
     if (el) el.style.display = visible ? type : 'none';
   }
@@ -169,6 +169,7 @@ function aplicarPerfil(usuario) {
   }
 }
 
+// função para carregar as mesas, exibindo os pedidos ativos, total por mesa e opções de gerenciamento
 async function carregarMesas(mesaFiltro = null) {
   const grid = document.getElementById('grid-mesas');
   grid.innerHTML = '<div class="spin-wrap"><div class="spin"></div> Carregando...</div>';
@@ -236,6 +237,7 @@ async function carregarMesas(mesaFiltro = null) {
       });
       const statusAtual = peds[peds.length - 1]?.status;
 
+      // HTML estatico mostrando dados e opções de gerenciamento da mesa
       return `
         <div class="mesa-card">
           <div class="mesa-card-head">
@@ -279,6 +281,7 @@ async function carregarMesas(mesaFiltro = null) {
   }
 }
 
+// função para abrir pedidos da mesa, permitindo adicionar e gerenciar itens
 async function abrirPedidoMesa(mesaNum = null) {
   try {
     if (!cPizzas.length)   cPizzas   = await api('GET', '/pizzas');
@@ -299,6 +302,7 @@ async function abrirPedidoMesa(mesaNum = null) {
   abrir('m-pedido-mesa');
 }
 
+// função para adicionar um item ao pedido, criando linha com opções de seleção de pizza, tamanho, quantidade e preço
 function addItemMesa() {
   const d = document.createElement('div');
   d.className = 'item-row';
@@ -317,6 +321,7 @@ function addItemMesa() {
   document.getElementById('itens-mesa-lista').appendChild(d);
 }
 
+// função para recalcular o preço total da mesa
 function recalcMesa() {
   let sub = 0;
   document.querySelectorAll('#itens-mesa-lista .item-row').forEach(row => {
@@ -331,6 +336,7 @@ function recalcMesa() {
   document.getElementById('pm-tot').textContent = R$(sub);
 }
 
+// Função salvando pedido da mesa, validando dados e enviando para api
 async function salvarPedidoMesa() {
   const mesa = parseInt(document.getElementById('pm-mesa').value) || 0;
   if (!mesa || mesa < 1) { toast('Selecione a mesa', 'err'); return; }
@@ -381,6 +387,7 @@ async function salvarPedidoMesa() {
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
 }
 
+// função para abrir modal de fechamento da mesa, mostrando o total e opções de confirmação
 function abrirFecharMesa(mesa, total, ids) {
   mesaEmFechamento = { mesa, total, ids: ids.split(',') };
   document.getElementById('fm-titulo').textContent = `Fechar Mesa ${mesa}`;
@@ -408,6 +415,7 @@ async function confirmarFechamento() {
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
 }
 
+// função para navegar entre as seções da interface, aplicando restrições de acesso conforme o perfil do usuário
 function ir(pg, btn) {
   const perfil = document.getElementById('sb-perfil').textContent;
   if (pg === 'usuarios' && perfil !== 'Administrador') {
@@ -434,6 +442,7 @@ function ir(pg, btn) {
   if (loaders[pg]) loaders[pg]();
 }
 
+// função para carregar os dados do dashboard, exibindo resumos e estatísticas de pizzas, clientes e pedidos
 async function carregarDashboard() {
   const h = new Date().getHours();
   const s = h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite';
@@ -485,6 +494,7 @@ async function carregarDashboard() {
   } catch (e) { toast('Erro dashboard: ' + e.message, 'err'); }
 }
 
+// função para carregar as pizzas, exibindo em tabela com opções de edição e exclusão para cada pizza
 async function carregarPizzas() {
   const el = document.getElementById('tbl-pizzas');
   el.innerHTML = '<div class="spin-wrap"><div class="spin"></div> Carregando...</div>';
@@ -518,6 +528,7 @@ async function carregarPizzas() {
   }
 }
 
+// função para abrir modal de criação ou edição de pizza, preenchendo os campos com os dados da pizza selecionada ou deixando em branco para nova pizza
 function abrirPizza() {
   document.getElementById('m-pizza-t').textContent = 'Nova Pizza';
   ['p-id','p-nome','p-ing','p-desc','p-pp','p-pm','p-pg']
@@ -527,6 +538,7 @@ function abrirPizza() {
   abrir('m-pizza');
 }
 
+// função para editar pizza, preenchendo os campos do modal com os dados da pizza selecionada para edição
 function editarPizza(id) {
   const p = cPizzas.find(x => x._id === id);
   if (!p) return;
@@ -543,6 +555,7 @@ function editarPizza(id) {
   abrir('m-pizza');
 }
 
+// função para salvar pizza, validando os campos obrigatórios e enviando os dados para a api para criação ou atualização da pizza
 async function salvarPizza() {
   const id   = document.getElementById('p-id').value;
   const nome = document.getElementById('p-nome').value.trim();
@@ -570,6 +583,7 @@ async function salvarPizza() {
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
 }
 
+// função para deletar pizza, solicitando confirmação do usuário e enviando requisição para api para exclusão da pizza selecionada
 async function deletarPizza(id, nome) {
   if (!confirm(`Deletar "${nome}"?`)) return;
   try {
@@ -579,6 +593,7 @@ async function deletarPizza(id, nome) {
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
 }
 
+// função para carregar os clientes, exibindo em tabela com opções de edição e exclusão para cada cliente, e permitindo busca por nome ou telefone
 async function carregarClientes(busca = '') {
   const el = document.getElementById('tbl-clientes');
   el.innerHTML = '<div class="spin-wrap"><div class="spin"></div> Carregando...</div>';
@@ -610,12 +625,14 @@ async function carregarClientes(busca = '') {
   }
 }
 
-let _t;
+let _t; // variavel para armazenar o timeout da busca, evitando chamadas excessivas à API enquanto o usuário digita
+// função para buscar clientes, limpando o timeout anterior e definindo um novo para chamar a função de carregar clientes com o valor da busca após um pequeno atraso
 function buscarCli(v) {
   clearTimeout(_t);
   _t = setTimeout(() => carregarClientes(v), 400);
 }
 
+// função para abrir modal de criação ou edição de cliente, preenchendo os campos com os dados do cliente selecionado ou deixando em branco para novo cliente
 function abrirCliente() {
   document.getElementById('m-cli-t').textContent = 'Novo Cliente';
   ['c-id','c-nome','c-tel','c-rua','c-num','c-bairro','c-cidade','c-cep','c-comp','c-obs']
@@ -623,6 +640,7 @@ function abrirCliente() {
   abrir('m-cliente');
 }
 
+// função para editar cliente, preenchendo os campos do modal com os dados do cliente selecionado para edição
 function editarCliente(id) {
   const c = cClientes.find(x => x._id === id);
   if (!c) return;
@@ -640,6 +658,7 @@ function editarCliente(id) {
   abrir('m-cliente');
 }
 
+// função para salvar cliente, validando os campos obrigatórios e enviando os dados para a api para criação ou atualização do cliente
 async function salvarCliente() {
   const id   = document.getElementById('c-id').value;
   const nome = document.getElementById('c-nome').value.trim();
@@ -677,6 +696,7 @@ async function deletarCliente(id, nome) {
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
 }
 
+// função para carregar os pedidos, exibindo em tabela com detalhes do cliente, itens, valores, status e opções de gerenciamento para cada pedido
 async function carregarPedidos() {
   const el = document.getElementById('tbl-pedidos');
   el.innerHTML = '<div class="spin-wrap"><div class="spin"></div> Carregando...</div>';
@@ -711,6 +731,7 @@ async function carregarPedidos() {
   }
 }
 
+// função para abrir modal de criação de pedido, permitindo selecionar cliente, adicionar itens, calcular valores e escolher forma de pagamento
 async function abrirPedido() {
   try {
     if (!cPizzas.length)   cPizzas   = await api('GET', '/pizzas');
@@ -733,6 +754,7 @@ async function abrirPedido() {
   abrir('m-pedido');
 }
 
+// função para adicionar um item ao pedido, criando linha com opções de seleção de pizza, tamanho, quantidade e preço, e recalculando o total do pedido
 function addItem() {
   const d = document.createElement('div');
   d.className = 'item-row';
@@ -750,6 +772,7 @@ function addItem() {
   document.getElementById('itens-lista').appendChild(d);
 }
 
+// função para recalcular o subtotal e total do pedido, iterando sobre os itens adicionados, multiplicando o preço pela quantidade e somando ao subtotal, e aplicando a taxa de entrega para calcular o total final
 function recalc() {
   let sub = 0;
   document.querySelectorAll('#itens-lista .item-row').forEach(row => {
@@ -768,12 +791,14 @@ function recalc() {
   document.getElementById('ped-tot').textContent = R$(sub + taxa);
 }
 
+// função para mostrar ou ocultar o campo de troco dependendo do campo selecionado como dinheiro
 function toggleTroco() {
   const pag = document.getElementById('ped-pag').value;
   document.getElementById('wrap-troco').style.display =
     pag === 'dinheiro' ? 'block' : 'none';
 }
 
+// função para salvar pedido, validando os campos obrigatórios, construindo o objeto de pedido com os dados do cliente, itens, valores e observações, e enviando para a api para criação do pedido
 async function salvarPedido() {
   const cliId = document.getElementById('ped-cli').value;
   if (!cliId) { toast('Selecione um cliente', 'err'); return; }
@@ -809,12 +834,14 @@ async function salvarPedido() {
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
 }
 
+// fução para abrir modal de alteração de status do pedido, preenchendo os campos ocultos com o id e status atual do pedido selecionado para edição
 function abrirStatus(id, status) {
   document.getElementById('st-id').value  = id;
   document.getElementById('st-val').value = status;
   abrir('m-status');
 }
 
+//função para salvar status do pedido. valida campos e envia requisição para atualização
 async function salvarStatus() {
   const id     = document.getElementById('st-id').value;
   const status = document.getElementById('st-val').value;
@@ -826,6 +853,7 @@ async function salvarStatus() {
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
 }
 
+// função para deletar pedido, solicita confirmação do usuario e envia requisição DELETE para api
 async function deletarPedido(id) {
   if (!confirm('Deletar este pedido?')) return;
   try {
@@ -835,6 +863,7 @@ async function deletarPedido(id) {
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
 }
 
+// função para carregar os usuários, exibindo em tabela com opções de exclusão para cada usuário, e restringindo acesso a esta seção apenas para administradores
 async function carregarUsuarios() {
   const el = document.getElementById('tbl-usuarios');
   el.innerHTML = '<div class="spin-wrap"><div class="spin"></div> Carregando...</div>';
@@ -864,12 +893,14 @@ async function carregarUsuarios() {
   }
 }
 
+// função para abrir modal de criação de usuário, limpando os campos do formulário e definindo o perfil padrão como atendente, e restringindo acesso a esta função apenas para administradores
 function abrirUsuario() {
   ['u-nome','u-email','u-senha'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('u-perfil').value = 'Atendente';
   abrir('m-usuario');
 }
 
+// função para salvar usuário, validando os campos obrigatórios e enviando os dados para a api para criação do usuário, e restringindo acesso a esta função apenas para administradores
 async function salvarUsuario() {
   const nome  = document.getElementById('u-nome').value.trim();
   const email = document.getElementById('u-email').value.trim();
@@ -887,6 +918,7 @@ async function salvarUsuario() {
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
 }
 
+// função para deletar usuário, solicitando confirmação do usuário e enviando requisição para api para exclusão do usuário selecionado, e restringindo acesso a esta função apenas para administradores
 async function deletarUsuario(id, nome) {
   if (!confirm(`Deletar "${nome}"?`)) return;
   try {
