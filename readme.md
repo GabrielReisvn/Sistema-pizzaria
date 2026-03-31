@@ -79,94 +79,38 @@ src/
 
 # EPLICANDO SITE
 
-### **_TELA DE LOGIN_**
-
 ## Modelos (models)
 
-Abaixo estão os modelos presentes em src/models/ com uma breve descrição do que cada um expõe e quais operações é esperado que realizem.
+Abaixo estão os modelos de página presentes com uma breve descrição do que cada um expõe e quais operações é esperado que realizem.
 
-### Usuario (src/models/Usuario.js)
+### **_TELA DE LOGIN_**
 
-- Campos típicos:
-  - id / _id
-  - nome
-  - email
-  - senha (hash)
-  - perfil (e.g. "Administrador", "Garcom", "Atendente")
-  - ativo (boolean)
-- O que faz / métodos esperados:
-  - findAll(filters) — listar usuários (com paginação / filtros).
-  - findById(id) — retornar usuário por id.
-  - findByEmail(email) — buscar usuário pelo email (usado no login).
-  - create(data) — criar novo usuário; deve hashear a senha com bcrypt antes de salvar.
-  - update(id, data) — atualizar campos (não retornar hash de senha nas respostas).
-  - delete(id) — desativar ou remover usuário.
-  - verificarSenha(senha, hash) — comparar senha com hash (bcrypt).
-- Observações:
-  - Não devolver o campo senha nas respostas da API.
-  - Perfis controlam permissões nas rotas (ex.: só Administrador pode gerenciar usuários).
+<img src="./img/login.png" width="500" height="auto">
+```[8]
 
 
-### Pizza (src/models/Pizza.js)
 
-- Campos típicos:
-  - id / _id
-  - nome
-  - descricao / ingredientes
-  - precos (objeto ou JSON com chaves: pequena, media, grande)
-  - categoria (opcional)
-  - disponivel (boolean)
-- O que faz / métodos esperados:
-  - findAll(filters) — listar pizzas (filtro por nome, categoria, disponibilidade).
-  - findById(id) — retornar pizza.
-  - create(data) — criar pizza (armazenar preços como JSON).
-  - update(id, data) — atualizar pizza.
-  - delete(id) — remover pizza.
-- Observações:
-  - precos deve ser um objeto JSON para facilitar diferentes tamanhos/preços.
-  - Validar campos obrigatórios (nome, pelo menos um preço).
+### **_Dashboard_** 📊
 
-### Cliente (src/models/Cliente.js)
+<img src="./img/dashboard.png" width="500" height="auto">
+``` [8]
 
-- Campos típicos:
-  - id / _id
-  - nome
-  - telefone
-  - endereco (rua, numero, complemento, bairro, cidade)
-  - observacoes
-- O que faz / métodos esperados:
-  - findAll({ busca }) — listar clientes; permitir busca por nome/telefone.
-  - findById(id) — retornar cliente.
-  - create(data) — criar cliente.
-  - update(id, data) — atualizar cliente.
-  - delete(id) — remover ou marcar como inativo.
-- Observações:
-  - Permitir pesquisa incremental no front-end (debounce) utilizando a rota de listagem com query string.
+### **_Pedidos_** 📋
 
-### Pedido (src/models/Pedido.js)
+<img src="./img/pedido.png" width="500" height="auto">
+``` [8]
 
-- Campos típicos:
-  - id / _id
-  - clienteId (ou dados básicos do cliente)
-  - mesa (número, opcional)
-  - itens: [ { pizzaId, nome, tamanho, preco, quantidade } ]
-  - subtotal, taxa_entrega, total
-  - forma_pagamento (dinheiro, cartão, pix, etc.)
-  - troco (quando forma_pagamento == dinheiro)
-  - status (recebido, em_preparo, saiu_entrega, entregue, cancelado)
-  - observacoes
-  - criado_em, atualizado_em
-- O que faz / métodos esperados:
-  - create(pedidoData) — criar pedido; calcular subtotal e total (somar itens, adicionar taxa).
-  - findAll(filters) — listar pedidos (filtros por status, cliente, período, mesa).
-  - findById(id) — retornar pedido com itens e dados do cliente.
-  - updateStatus(id, novoStatus) — alterar status do pedido.
-  - update(id, data) — editar pedido (se permitido).
-  - delete(id) — cancelar ou remover pedido.
-- Observações:
+### **_Pizza_** 🍕
 
-  - Ao criar pedido, gravar snapshot dos itens (nome, tamanho, preço) para manter histórico.
-  - Validar estoque/preços conforme necessário (se houver).
-  - Permitir fechamento de mesas (conjunto de pedidos) e gerar totais para pagamento.
+<img src="./img/pizza.png" width="500" height="auto">
+``` [8]
 
+### **_Clientes_** 👥
 
+<img src="./img/clientes.png" width="500" height="auto">
+``` [8]
+
+### **_Usuários_** 🔐
+
+<img src="./img/suarios.png" width="500" height="auto">
+``` [8]
