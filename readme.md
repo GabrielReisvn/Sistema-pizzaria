@@ -83,7 +83,7 @@ src/
 
 Abaixo estão os modelos de página presentes com uma breve descrição do que cada um expõe e quais operações é esperado que realizem.
 
-### **_TELA DE LOGIN_**
+## **_TELA DE LOGIN_**
 
 <img src="./img/login.png" width="500" height="auto">
 
@@ -98,7 +98,7 @@ Permissões: disponível a todos; funções exibidas depois do login conforme pe
 
 ```
 
-### **_Dashboard_** 📊
+## **_Dashboard_** 📊
 
 <img src="./img/dashboard.png" width="500" height="auto">
 
@@ -112,7 +112,7 @@ Ações: exibir totais, filtros rápidos (período), navegar para páginas detal
 Permissões: visível para usuários autenticados; conteúdo pode variar por perfil.
 ```
 
-### **_Pedidos_** 📋
+## **_Pedidos_** 📋
 
 <img src="./img/pedido.png" width="500" height="auto">
 
@@ -130,7 +130,7 @@ Permissões: atendentes/garçons podem criar e atualizar; administradores têm c
 
 ```
 
-### **_Pizza_** 🍕
+## **_Pizza_** 🍕
 
 <img src="./img/pizza.png" width="500" height="auto">
 
@@ -148,7 +148,7 @@ Permissões: geralmente restrito a usuários com permissão de gestão (administ
 
 ```
 
-### **_Clientes_** 👥
+## **_Clientes_** 👥
 
 <img src="./img/clientes.png" width="500" height="auto">
 
@@ -165,7 +165,7 @@ Ações:
 Permissões: disponível para atendentes/garçons; administradores também.
 ```
 
-### **_Usuários_** 🔐
+## **_Usuários_** 🔐
 
 <img src="./img/suarios.png" width="500" height="auto">
 
